@@ -1,5 +1,7 @@
 /*
  * grunt-ejs
+ * Modified By Tomás Ruiz to suit the single file generation.
+ * 
  * https://github.com/shama/grunt-ejs
  *
  * Copyright (c) 2014 Kyle Robinson Young
@@ -14,9 +16,13 @@ module.exports = function(grunt) {
     grunt.verbose.writeflags(options, 'Options');
     this.files.forEach(function(file) {
       var out = file.src.map(grunt.file.read).join('');
+      //*******************************************
+      // Added by Tomás Ruiz to support single file generation.
+      //*******************************************
+      var destFile = options.singleFile ? options.singleFile : file.dest;
       options.filename = file.src[0];
-      grunt.file.write(file.dest, ejs.render(out, options));
-      grunt.log.ok('Wrote ' + file.dest);
+      grunt.file.write(destFile, ejs.render(out, options));
+      grunt.log.ok('Wrote ' + destFile);
     })
   });
 };
